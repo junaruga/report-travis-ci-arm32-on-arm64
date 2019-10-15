@@ -20,8 +20,15 @@ matrix:
           sudo -E apt-get $travis_apt_get_options install \
             gcc-8 \
             zlib1g
+    # https://askubuntu.com/questions/928249/how-to-run-armhf-executables-on-an-arm64-system
     - name: arm32
       arch: arm64
+      compiler: gcc-8
+      env:
+        - GCC_FLAGS=-m32
+        - CXX='g++-8 -m32'
+        - debugflags=-g0
+        - SETARCH='setarch armhf --verbose --3gb'
       before_install:
         - uname -a
         - sudo -E apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
