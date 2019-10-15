@@ -1,0 +1,38 @@
+language: c
+os: linux
+dist: xenial
+
+env:
+  global:
+    # https://github.com/travis-ci/travis-build/blob/e411371dda21430a60f61b8f3f57943d2fe4d344/lib/travis/build/bash/travis_apt_get_options.bash#L7
+    - travis_apt_get_options='--allow-downgrades --allow-remove-essential --allow-change-held-packages'
+    - travis_apt_get_options="-yq --no-install-suggests --no-install-recommends $travis_apt_get_options"
+
+matrix:
+  include:
+    - name: arm64
+      arch: arm64
+      before_install:
+        - uname -a
+        - sudo -E apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+        - sudo bash -c "rm -rf '${TRAVIS_ROOT}/var/lib/apt/lists/'* && exec apt-get update -yq"
+        - |-
+          sudo -E apt-get $travis_apt_get_options install \
+            gcc-8 \
+            zlib1g
+    - name: arm32
+      arch: arm64
+      before_install:
+        - uname -a
+        - sudo dpkg --add-architecture armhf
+        - sudo -E apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+        - sudo bash -c "rm -rf '${TRAVIS_ROOT}/var/lib/apt/lists/'* && exec apt-get update -yq"
+        - |-
+          sudo -E apt-get $travis_apt_get_options install \
+            gcc-8-multilib \
+            zlib1g:armhf
+install: true
+script:
+  - apt-cache show gcc-8
+  - apt-cache show zlib1g
+  - gcc-8 --version
