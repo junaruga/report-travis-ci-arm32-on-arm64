@@ -35,7 +35,9 @@ matrix:
         # https://packages.ubuntu.com/xenial/gcc-multilib
         - sudo apt-get install gcc-multilib
         - sudo dpkg --add-architecture armhf
-        - sudo apt-get $travis_apt_get_options install \
+        # https://packages.ubuntu.com/xenial/zlib1g-dev
+        - |-
+          sudo apt-get $travis_apt_get_options install \
             zlib1g-dev:armhf \
             zlib1g:armhf
       script:
