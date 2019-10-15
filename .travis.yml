@@ -24,7 +24,7 @@ matrix:
       arch: arm64
       before_install:
         - uname -a
-        - sudo dpkg --add-architecture armhf
+        # - sudo dpkg --add-architecture armhf
         - sudo -E apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
         - sudo bash -c "rm -rf '${TRAVIS_ROOT}/var/lib/apt/lists/'* && exec apt-get update -yq"
         - |-
