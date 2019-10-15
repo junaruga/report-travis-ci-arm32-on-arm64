@@ -37,7 +37,8 @@ matrix:
       before_install:
         - uname -a
         # - sudo -E apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-        - sudo bash -c "rm -rf '${TRAVIS_ROOT}/var/lib/apt/lists/'* && exec apt-get update -yq"
+        # - sudo bash -c "rm -rf '${TRAVIS_ROOT}/var/lib/apt/lists/'* && exec apt-get update -yq"
+        - sudo apt-get update -yq
         - |-
           sudo -E apt-get $travis_apt_get_options install \
             gcc-multilib
